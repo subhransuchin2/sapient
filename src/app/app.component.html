@@ -11,8 +11,25 @@
 <div class="row">
   <div class="leftcolumn">
     <div class="card">
+      <label for="website">Website:</label>
+      <select [formControl]="order">
+        <option value=''>Select Sorting</option>
+        <option *ngFor="let sort of sorting" [value]="sort.id" >{{sort.name}}</option>
+      </select>
+      <!-- <select [formControl]="order" (change)="changeWebsite($event, value)">
+        <option value=''>Select Website</option>
+        <option value='47'>47</option>
+        <option value='46'>46</option>
+        <option value='45'>45</option>
+      </select> -->
+      <h2>Put Filters here</h2>
+      <label class="field-label">Species</label>
+      <input id="human" class="speciesCheckBox" [formControl]="humanCheckbox" type="checkbox" /> Human
+      <input id="mythology" class="speciesCheckBox" [formControl]="mythologyCheckbox" type="checkbox" /> Mythology
+      <input id="other" class="speciesCheckBox" [formControl]="otherSpeciesCheckbox" type="checkbox" /> Other Species...
+    </div>
+    <div class="card">
       <h3>Put Filters here</h3>
-      <div class="fakeimg" style="height:200px;">Image</div>
       <div class="element">
         <label class="field-label">Gender</label>
         <input id="male" class="genderCheckBox" [formControl]="maleCheckbox" type="checkbox" /> Male
@@ -20,16 +37,15 @@
       </div>
     </div>
     <div class="card">
-      <h2>Put Filters here</h2>
-      <label class="field-label">Species</label>
-      <input id="human" class="speciesCheckBox" [formControl]="humanCheckbox" type="checkbox" /> Human
-        <input id="mythology" class="speciesCheckBox" [formControl]="mythologyCheckbox" type="checkbox" /> Mythology
-        <input id="other" class="speciesCheckBox" [formControl]="otherSpeciesCheckbox" type="checkbox" /> Other Species...
-      <div class="fakeimg" style="height:200px;">Image</div>
-      <p>Some text..</p>
+      <label class="field-label">Origin</label>
+      <input id="earth" class="originCheckBox" [formControl]="earthCheckbox" type="checkbox" /> Earth
+      <input id="nuptia" class="originCheckBox" [formControl]="nuptiaCheckbox" type="checkbox" /> Nuptia 4
+      <input id="unknown" class="originCheckBox" [formControl]="unknownCheckbox" type="checkbox" /> Unknown
+      <input id="otherOrigins" class="originCheckBox" [formControl]="otherOriginsCheckbox" type="checkbox" /> Other
+      Origins...
     </div>
+    <div class="fakeimg" style="height:200px;">Image</div>
   </div>
-
   <div class="rightcolumn">
     <div class="card">
       <input type="text" [formControl]="filter" placeholder="search by name">
@@ -45,6 +61,7 @@
             <h5>{{data.species}}</h5>
             <h5>{{data.origin.name}}</h5>
             <h5>{{data.location.name}}</h5>
+            <h5>{{data.year}}</h5>
           </div>
         </div>
       </div>
