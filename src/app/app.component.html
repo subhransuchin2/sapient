@@ -16,12 +16,6 @@
         <option value=''>Select Sorting</option>
         <option *ngFor="let sort of sorting" [value]="sort.id" >{{sort.name}}</option>
       </select>
-      <!-- <select [formControl]="order" (change)="changeWebsite($event, value)">
-        <option value=''>Select Website</option>
-        <option value='47'>47</option>
-        <option value='46'>46</option>
-        <option value='45'>45</option>
-      </select> -->
       <h2>Put Filters here</h2>
       <label class="field-label">Species</label>
       <input id="human" class="speciesCheckBox" [formControl]="humanCheckbox" type="checkbox" /> Human
