@@ -1,16 +1,53 @@
-<input type="text" [formControl]="filter" placeholder="search by name">
-<div *ngIf="filteredStates$ | async as infoData">
-    <div *ngFor="let data of infoData">
-        <!-- <img src="'{{image}}'" alt="e"> -->
-        <br>
-        <h5>{{data.id}}</h5>
-        <h5>{{data.name}}</h5>
-        <h5>{{data.status}}</h5>
-        <h5>{{data.gender}}</h5>
-        <h5>{{data.species}}</h5>
-        <h5>{{data.origin.name}}</h5>
-        <h5>{{data.location.name}}</h5>
-    </div>
+<div class="header">
+  <h1>My Website</h1>
+
 </div>
 
-<!-- <router-outlet></router-outlet> -->
+<div class="topnav">
+
+  <a href="#" style="float:right"></a>
+</div>
+
+<div class="row">
+  <div class="leftcolumn">
+    <div class="card">
+      <h3>Put Filters here</h3>
+      <div class="fakeimg" style="height:200px;">Image</div>
+      <div class="element">
+        <label class="field-label">Gender</label>
+        <input id="male" class="genderCheckBox" [formControl]="maleCheckbox" type="checkbox" /> Male
+        <input id="female" class="genderCheckBox" [formControl]="femaleCheckbox" type="checkbox" /> Female
+      </div>
+    </div>
+    <div class="card">
+      <h2>Put Filters here</h2>
+      <label class="field-label">Species</label>
+      <input id="human" class="speciesCheckBox" [formControl]="humanCheckbox" type="checkbox" /> Human
+        <input id="mythology" class="speciesCheckBox" [formControl]="mythologyCheckbox" type="checkbox" /> Mythology
+        <input id="other" class="speciesCheckBox" [formControl]="otherSpeciesCheckbox" type="checkbox" /> Other Species...
+      <div class="fakeimg" style="height:200px;">Image</div>
+      <p>Some text..</p>
+    </div>
+  </div>
+
+  <div class="rightcolumn">
+    <div class="card">
+      <input type="text" [formControl]="filter" placeholder="search by name">
+      <div *ngIf="filteredStates$ | async as infoData">
+        <div *ngFor="let data of infoData; let i = index">
+          <!-- <img src="'{{image}}'" alt="e"> -->
+          <div>
+            <br>
+            <h5>{{data.id}}</h5>
+            <h5>{{data.name}}</h5>
+            <h5>{{data.status}}</h5>
+            <h5>{{data.gender}}</h5>
+            <h5>{{data.species}}</h5>
+            <h5>{{data.origin.name}}</h5>
+            <h5>{{data.location.name}}</h5>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -6,13 +6,14 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AppRoutingModule } from "./app-routing.module";
 import { AppComponent } from "./app.component";
 import { ApiService } from './shared/services/api.service';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 @NgModule({
   declarations: [
     AppComponent
   ],
   imports: [BrowserModule, AppRoutingModule, HttpClientModule,
-    FormsModule, ReactiveFormsModule],
+    FormsModule, ReactiveFormsModule, BrowserAnimationsModule],
   providers: [ApiService],
   bootstrap: [AppComponent]
 })
