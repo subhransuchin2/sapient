@@ -1,0 +1,16 @@
+<input type="text" [formControl]="filter" placeholder="search by name">
+<div *ngIf="filteredStates$ | async as infoData">
+    <div *ngFor="let data of infoData">
+        <!-- <img src="'{{image}}'" alt="e"> -->
+        <br>
+        <h5>{{data.id}}</h5>
+        <h5>{{data.name}}</h5>
+        <h5>{{data.status}}</h5>
+        <h5>{{data.gender}}</h5>
+        <h5>{{data.species}}</h5>
+        <h5>{{data.origin.name}}</h5>
+        <h5>{{data.location.name}}</h5>
+    </div>
+</div>
+
+<!-- <router-outlet></router-outlet> -->
