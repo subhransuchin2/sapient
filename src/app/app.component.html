@@ -12,9 +12,9 @@
   <div class="leftcolumn">
     <div class="card">
       <label for="website">Website:</label>
-      <select [formControl]="order">
+      <select id="order" [formControl]="order">
         <option value=''>Select Sorting</option>
-        <option *ngFor="let sort of sorting" [value]="sort.id" >{{sort.name}}</option>
+        <option *ngFor="let sort of sorting" [value]="sort.id">{{sort.name}}</option>
       </select>
       <h2>Put Filters here</h2>
       <label class="field-label">Species</label>
@@ -45,7 +45,7 @@
       <input type="text" [formControl]="filter" placeholder="search by name">
       <div *ngIf="filteredStates$ | async as infoData">
         <div *ngFor="let data of infoData; let i = index">
-          <!-- <img src="'{{image}}'" alt="e"> -->
+          <img [src]=data.image alt="Image">
           <div>
             <br>
             <h5>{{data.id}}</h5>

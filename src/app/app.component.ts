@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
-import { DomSanitizer } from '@angular/platform-browser';
 import { map, startWith } from 'rxjs/operators';
 import { combineLatest, Observable } from 'rxjs';
 
@@ -24,7 +23,6 @@ export class AppComponent implements OnInit {
   otherOriginsCheckbox: FormControl = new FormControl();
   order: FormControl = new FormControl('');
   filteredStates$: Observable<any[]>;
-  infoData$: Observable<any[]>;
   nameFilterSub$: Observable<string>;
   femaleFilterSub$: Observable<string>;
   maleFilterSub$: Observable<string>;
@@ -35,18 +33,18 @@ export class AppComponent implements OnInit {
   nuptiaFilterSub$: Observable<string>;
   unknownFilterSub$: Observable<string>;
   otherOriginsFilterSub$: Observable<string>;
+  orderSortSub$: Observable<string>;
   updateDate = true;
-  filterData$: Observable<any[]>;
   sorting = [{
     id: '1',
-    name: 'ASC',
+    name: 'Ascending',
   },
   {
     id: '2',
-    name: 'DESC'
+    name: 'Descending'
   }]
 
-  constructor(private apiService: ApiService, private sanitization: DomSanitizer) { }
+  constructor(private apiService: ApiService) { }
   ngOnInit() {
     this.nameFilterSub$ = this.filter.valueChanges.pipe(startWith(''));
     this.maleFilterSub$ = this.maleCheckbox.valueChanges.pipe(startWith(''));
@@ -58,12 +56,14 @@ export class AppComponent implements OnInit {
     this.nuptiaFilterSub$ = this.nuptiaCheckbox.valueChanges.pipe(startWith(''));
     this.unknownFilterSub$ = this.unknownCheckbox.valueChanges.pipe(startWith(''));
     this.otherOriginsFilterSub$ = this.otherOriginsCheckbox.valueChanges.pipe(startWith(''));
+    this.orderSortSub$ = this.order.valueChanges.pipe(startWith(''));
     this.filteredStates$ = combineLatest(
       this.apiService.getData('https://rickandmortyapi.com/api/character/'),
       this.nameFilterSub$,
       this.maleFilterSub$, this.femaleFilterSub$,
       this.humanFilterSub$, this.mythologyFilterSub$, this.otherSpeciesFilterSub$,
       this.earthFilterSub$, this.nuptiaFilterSub$, this.unknownFilterSub$, this.otherOriginsFilterSub$,
+      this.orderSortSub$
     )
       .pipe(map(([apiData, filterString]) => {
         let uiData = apiData.results;
@@ -121,39 +121,40 @@ export class AppComponent implements OnInit {
           uiData = uiData.filter((results) => results.origin.name.trim().toLowerCase().localeCompare('nuptia') !== 0);
           uiData = uiData.filter((results) => results.origin.name.trim().toLowerCase().localeCompare('unknown') !== 0);
         }
-        this.filterData$ = uiData;
+
+        formEle = document.getElementById('order') as HTMLInputElement;
+        if (formEle.value === '1') {
+          uiData = uiData.sort(this.compare)
+        } else if (formEle.value === '2') {
+          uiData = uiData.sort(this.compare)
+        }
         return uiData;
       }
-
       ));
-    this.order.valueChanges.subscribe((value) => {
-      console.log(value);
-      // this.filteredStates$ = this.filterData$.pipe(
-      //   map((d)) => {
-      //   d.sort((a, b) => {
-      //     return a < b ? -1 : 1;
-      //   });
-      //   return d;
-      // });
-    });
-      //     this.test$ = Observable.of(['one', 'two', 'three'])
-      // .map((data) => {
-      //     data.sort((a, b) => {
-      //         return a < b ? -1 : 1;
-      //      });
-      //     return data;
-      //  });
-    
   }
 
+  compare(a, b) {
+    let comparison = 0;
+    if (a.id > b.id) {
+      comparison = 1;
+    } else if (a.id < b.id) {
+      comparison = -1;
+    }
+    const formEle = document.getElementById('order') as HTMLInputElement;
+    if (formEle.value === '2') {
+      return comparison * -1;
+    } else {
+      return comparison;
+    }
 
-
-creationTime(uiData) {
-  for (let data of uiData) {
-    let d = (new Date(new Date().toISOString()).valueOf() - new Date(data.created).valueOf()) / 3.17098e-11;
-    data['year'] = Math.floor(parseInt(d.toString()));
   }
-  this.updateDate = false;
-  return uiData;
-}
+
+  creationTime(uiData) {
+    for (let data of uiData) {
+      let d = (new Date(new Date().toISOString()).valueOf() - new Date(data.created).valueOf()) / 3.17098e-11;
+      data['year'] = Math.floor(parseInt(d.toString()));
+    }
+    this.updateDate = false;
+    return uiData;
+  }
 }
